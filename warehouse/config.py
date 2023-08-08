@@ -393,6 +393,8 @@ def configure(settings=None):
         default=3,
     )
 
+    maybe_set(settings, "warehouse.launchdarkly.sdk_key", "LAUNCHDARKLY_SDK_KEY")
+
     # Add the settings we use when the environment is set to development.
     if settings["warehouse.env"] == Environment.development:
         settings.setdefault("enforce_https", False)
@@ -449,6 +451,9 @@ def configure(settings=None):
 
     # Register our logging support
     config.include(".logging")
+
+    # Register our feature flag support
+    config.include(".features")
 
     # We'll want to use Jinja2 as our template system.
     config.include("pyramid_jinja2")

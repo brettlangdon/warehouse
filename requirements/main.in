@@ -27,6 +27,7 @@ Jinja2>=2.8
 kombu[sqs]  # https://github.com/jazzband/pip-tools/issues/1577
 limits
 linehaul
+launchdarkly-server-sdk
 lxml
 mistune
 msgpack

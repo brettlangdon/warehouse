@@ -14,6 +14,7 @@
 import collections
 import re
 
+import ldclient
 import elasticsearch
 
 from pyramid.exceptions import PredicateMismatch
@@ -247,11 +248,22 @@ def index(request):
         .all()
     )
 
+    user_id = request.GET.get("user-id")
+    if not user_id:
+        ctx = ldclient.Context.builder("anonymous-user").anonymous(True).build()
+    else:
+        user_email = request.GET.get("user-email")
+        ctx = ldclient.Context.builder(user_id).set("email", user_email).build()
+
+    features_client = ldclient.get()
+    homepage_background_color = features_client.variation("homepage-background-color", ctx, "#006dad")
+
     return {
         "num_projects": counts.get(Project.__tablename__, 0),
         "num_releases": counts.get(Release.__tablename__, 0),
         "num_files": counts.get(File.__tablename__, 0),
         "num_users": counts.get(User.__tablename__, 0),
+        "homepage_background_color": homepage_background_color,
     }
 
 

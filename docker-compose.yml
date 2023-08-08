@@ -113,7 +113,7 @@ services:
 
   web:
     image: warehouse:docker-compose
-    command: gunicorn --reload -b 0.0.0.0:8000 --access-logfile - --error-logfile - warehouse.wsgi:application
+    command: ./dev/run.sh
     env_file: dev/environment
     pull_policy: never
     volumes: *base_volumes
